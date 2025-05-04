@@ -1,0 +1,29 @@
+{% extends 'monitoring/base.html' %}
+
+{% block content %}
+<h1>Queues</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Mensajes</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for queue in queues %}
+    <tr>
+      <td>{{ queue.name }}</td>
+      <td>{{ queue.count }}</td>
+      <td>
+        <a class="btn btn-primary btn-sm" href="{% url 'message_list' queue.name %}">Ver mensajes</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="3">No se encontraron colas.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %} 

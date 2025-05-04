@@ -1,0 +1,20 @@
+{% extends 'monitoring/base.html' %}
+
+{% block content %}
+<h1>Detalle de Mensaje</h1>
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">ID: {{ message.message_id }}</h5>
+    <p><strong>Cola:</strong> {{ message.queue_name }}</p>
+    <p><strong>Topic ARN:</strong> {{ message.topic_arn|default_if_none:"N/A" }}</p>
+    <p><strong>Estado:</strong> {{ message.state }}</p>
+    <p><strong>Recibido:</strong> {{ message.received_at }}</p>
+    <hr>
+    <h6>Contenido:</h6>
+    <pre>{{ message.body }}</pre>
+    <h6>Atributos:</h6>
+    <pre>{{ message.attributes|default_if_none:"{}" }}</pre>
+    <a class="btn btn-secondary" href="javascript:history.back()">Volver</a>
+  </div>
+</div>
+{% endblock %} 

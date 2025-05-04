@@ -1,0 +1,29 @@
+{% extends 'monitoring/base.html' %}
+
+{% block content %}
+<h1>Topics</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ARN</th>
+      <th>Mensajes</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for topic in topics %}
+    <tr>
+      <td>{{ topic.arn }}</td>
+      <td>{{ topic.count }}</td>
+      <td>
+        <a class="btn btn-primary btn-sm" href="{% url 'topic_message_list' topic.arn %}">Ver mensajes</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="3">No se encontraron topics.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %} 

@@ -1,0 +1,33 @@
+{% extends 'monitoring/base.html' %}
+
+{% block content %}
+<h1>Mensajes del Topic: {{ topic_arn }}</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Cola</th>
+      <th>Estado</th>
+      <th>Recibido</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for msg in messages %}
+    <tr>
+      <td>{{ msg.message_id }}</td>
+      <td>{{ msg.queue_name }}</td>
+      <td>{{ msg.state }}</td>
+      <td>{{ msg.received_at }}</td>
+      <td>
+        <a class="btn btn-sm btn-info" href="{% url 'message_detail' msg.pk %}">Ver detalle</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="5">No hay mensajes para este topic.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %} 
