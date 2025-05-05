@@ -7,6 +7,9 @@
     <h5 class="card-title">ID: {{ message.message_id }}</h5>
     <p><strong>Cola:</strong> {{ message.queue_name }}</p>
     <p><strong>Topic ARN:</strong> {{ message.topic_arn|default_if_none:"N/A" }}</p>
+    {% if message.subject %}
+    <p><strong>Asunto:</strong> {{ message.subject }}</p>
+    {% endif %}
     <p><strong>Estado:</strong> {{ message.state }}</p>
     <p><strong>Recibido:</strong> {{ message.received_at }}</p>
     <hr>

@@ -42,6 +42,7 @@ def fetch_messages_from_queue(queue_url, max_messages=10, wait_time=1):
             raw_body = msg.get('Body')
             attrs = msg.get('MessageAttributes', {})
             topic_arn = None
+            subject = None
             # Si TopicArn viene como atributo
             if 'TopicArn' in attrs:
                 topic_arn = attrs['TopicArn']['StringValue']
@@ -53,6 +54,9 @@ def fetch_messages_from_queue(queue_url, max_messages=10, wait_time=1):
                     # Extraer TopicArn del payload
                     if not topic_arn and payload.get('TopicArn'):
                         topic_arn = payload.get('TopicArn')
+                    # Extraer Subject del payload
+                    if payload.get('Subject'):
+                        subject = payload.get('Subject')
                     # Reemplazar body con el contenido real del mensaje
                     body = payload.get('Message', raw_body)
             except (ValueError, TypeError):
@@ -61,6 +65,7 @@ def fetch_messages_from_queue(queue_url, max_messages=10, wait_time=1):
                 message_id=msg_id,
                 queue_name=queue_url.split('/')[-1],
                 topic_arn=topic_arn,
+                subject=subject,
                 body=body,
                 attributes=attrs,
                 state='RECEIVED'
@@ -76,6 +81,12 @@ def fetch_all_messages():
     queues = list_queues()
     for queue_url in queues:
         fetch_messages_from_queue(queue_url)
+
+def fetch_monitor_messages(max_messages=10, wait_time=5):
+    """Obtiene mensajes específicamente de la cola de monitoreo"""
+    # URL de la cola de monitoreo
+    monitor_queue_url = 'https://sqs.us-east-1.amazonaws.com/381492023522/mentaqueue-monitor'
+    return fetch_messages_from_queue(monitor_queue_url, max_messages=max_messages, wait_time=wait_time)
 
 def get_sns_client():
     """Inicializa el cliente de SNS usando las credenciales configuradas"""

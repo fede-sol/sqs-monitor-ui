@@ -6,6 +6,7 @@ class Message(models.Model):
     message_id = models.CharField(max_length=255, unique=True)
     queue_name = models.CharField(max_length=255)
     topic_arn = models.CharField(max_length=512, blank=True, null=True)
+    subject = models.CharField(max_length=255, blank=True, null=True)
     body = models.TextField()
     attributes = models.JSONField(blank=True, null=True)
     state = models.CharField(max_length=50, default='RECEIVED')
